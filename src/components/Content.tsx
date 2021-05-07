@@ -1,4 +1,5 @@
-import { MovieProps } from '../App';
+
+import { MovieProps } from '../components/SideBar';
 import { MovieCard } from './MovieCard';
 
 interface ContentProps {
