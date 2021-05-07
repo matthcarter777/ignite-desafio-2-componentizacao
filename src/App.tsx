@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { Button } from './components/Button';
-import { MovieCard } from './components/MovieCard';
 
 import { SideBar } from './components/SideBar';
 import { Header } from './components/Header';
@@ -14,7 +13,7 @@ import './styles/global.scss';
 import './styles/sidebar.scss';
 import './styles/content.scss';
 
-interface GenreResponseProps {
+export interface GenreResponseProps {
   id: number;
   name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
   title: string;
@@ -39,6 +38,7 @@ export function App() {
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
 
+
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
       setGenres(response.data);
@@ -61,11 +61,8 @@ export function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <nav className="sidebar">
-        <span>Watch<p>Me</p></span>
-
-        <div className="buttons-container">
-          {genres.map(genre => (
+      <SideBar  genres={genres}>
+        {genres.map(genre => (
             <Button
               key={String(genre.id)}
               title={genre.title}
@@ -73,10 +70,8 @@ export function App() {
               onClick={() => handleClickButton(genre.id)}
               selected={selectedGenreId === genre.id}
             />
-          ))}
-        </div>
-
-      </nav>
+        ))}
+      </SideBar>
 
       <Content movies={movies}>
         <Header selected={selectedGenre} />
